@@ -37,8 +37,8 @@ If an error is return by the codemagic.io API, the plugin will **throw an except
 codemagic(
     workflow_id: "YOUR_WORKFLOW_ID",
     app_id: "YOUR_APP_ID",
-    branch: "release/4.1.2",
-    auth_token: "82Kf0RHv8MWS7VctoFHxGtW-wIWEkPUI0-E8DkJ4HaY",
+    branch: "YOUR_BRANCH",
+    auth_token: "YOUR_AUTH_TOKEN",
     download: {
         artefacts: ["ipa"],
         build_path: "./build/"
