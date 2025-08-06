@@ -8,9 +8,12 @@ module Fastlane
                                               hide_keys: [],
                                               title: "Codemagic options")
 
+        Fastlane::Helper::CodemagicHelper.validate!(params)
+
         json = get_post_payload(params[:app_id],
                                 params[:workflow_id],
                                 params[:branch],
+                                params[:tag],
                                 params[:environment])
 
         params[:download] ||= {}
@@ -30,7 +33,7 @@ module Fastlane
         end
       end
 
-      def self.get_post_payload(app_id, workflow_id, branch, environment)
+      def self.get_post_payload(app_id, workflow_id, branch, tag, environment)
         UI.message("Payload creation...")
         payload = {}
 
@@ -46,9 +49,14 @@ module Fastlane
           payload["branch"] = branch
         end
 
+        unless tag.nil?
+          payload["tag"] = tag
+        end
+
         unless environment.nil?
           payload["environment"] = environment
         end
+
 
         payload.to_json
       end
@@ -224,11 +232,14 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :branch,
                                   env_name: "CODEMAGIC_BRANCH",
                                description: "Codemagic branch name",
-                                  optional: false,
-                                      type: String,
-                              verify_block: proc do |value|
-                                UI.user_error!("No Codemagic branch given, pass it using `branch` parameter to the Codemagic plugin.") unless value && !value.empty?
-                              end),
+                                  optional: true,
+                                      type: String),
+
+          FastlaneCore::ConfigItem.new(key: :tag,
+                                  env_name: "CODEMAGIC_TAG",
+                               description: "Codemagic tag",
+                                  optional: true,
+                                      type: String),
 
           FastlaneCore::ConfigItem.new(key: :download,
                                        description: "Download Codemagic artefacts",

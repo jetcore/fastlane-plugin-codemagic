@@ -3,6 +3,7 @@ lane :test do
     workflow_id: "YOUR_WORKFLOW_ID",
     app_id: "YOUR_APP_ID",
     branch: "YOUR_BRANCH",
+    tag: "YOUR_TAG",
     auth_token: "YOUR_AUTH_TOKEN",
     download: {
       artefacts: ["ipa"],
